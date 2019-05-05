@@ -7,7 +7,13 @@
 
 class Point:
 
-    __init__(Self, x, y):
-        self.x = x
+    __init__(self, x, y):
+        self.x = x  
         self.y = y
+
+        self.cluster = 0 #cluster associated with the point
+        return
+
+    print(self):
+        print("(%d, %d) ", self.x , self.y)
         return
