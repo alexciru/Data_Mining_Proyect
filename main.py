@@ -6,23 +6,30 @@
 
 #import numpy as np   # Library for linear algebra
 #import pandas as pd  # library for data procesing
-import k_means
-import Point
+from point import Point
+from clustering import k_means
+# from clustering import k_means
 
 def main():
     # read file
-    f = open('../iris.data', 'r')
+    f = open("iris.data", 'r')
     points = [] #create a list of points
 
     
     for line in f:
-        line.split(",")
-        points.append(Point(line[0],line[1]))
+        if line is not None:
+            split = line.split(',')
+
+            new_point = Point(float(split[0]), float(split[1])) #extract the information about lenght and width of the sepal
+            new_point.print()
+            points.append( new_point )
         
 
     # start clustering
     k_means(3,points)
     # show results
+
+    #TODO plot the results
     return
 
 

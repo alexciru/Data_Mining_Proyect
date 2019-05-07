@@ -4,16 +4,20 @@
 #   The class Point will storage the information about the different transactions from the file read
 #
 
-
 class Point:
-
-    __init__(self, x, y):
+    def __init__(self, x, y, identifier = -1):
         self.x = x  
         self.y = y
-
-        self.cluster = 0 #cluster associated with the point
+        self.cluster = -1 #cluster associated with the point
+        self.id = identifier
         return
 
-    print(self):
-        print("(%d, %d) ", self.x , self.y)
+
+
+    def print(self):
+        string = "(" + str(self.x) + ", " +  str(self.y) + ")"
+        if(self.cluster != -1):
+            string += string + " cluster =" + str(self.cluster)
+        
+        print(string)
         return
