@@ -8,6 +8,9 @@
 #import pandas as pd  # library for data procesing
 from point import Point
 from clustering import k_means
+
+import numpy
+
 # from clustering import k_means
 
 def main():
@@ -23,18 +26,29 @@ def main():
             new_point = Point(float(split[0]), float(split[1])) #extract the information about lenght and width of the sepal
             #new_point.print()
             points.append( new_point )
-        
+    
+    f.close()
 
     # start clustering
     k_means(3,points)
+    
     # show results
-
+    print("writing results on file:")
+    write_results("out.data", points)
     #TODO plot the results
+    print("Ploting the results:")
+    plot "./file.dat" u 1:2:3 with lines  palette
+
     return
 
 
+def write_results(filename, points):
+    f = open(filename, 'w')
+    for point in points:
+        f.write("%.3f , %.3f , %d \n" % (point.x , point.y , point.cluster))
 
-
+    f.close
+    return
 
 
 if __name__ == "__main__":
@@ -54,3 +68,7 @@ And we will use the information about sepal length and width
       -- Iris Versicolour
       -- Iris Virginica
 """
+
+# set datafile sep ','
+# set palette model RGB defined (0 "red",1 "blue", 2 "green")
+# plot 'iris.data' using 1:2:3 notitle with points pt 7 palette
