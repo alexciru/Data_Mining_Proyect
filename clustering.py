@@ -35,15 +35,27 @@ def k_means(n_klustering, points):
     for point in points:
 
         # Calculate new Centroids (sum everything and divided by number of points )
-        counters = [0] * n_klustering
-        avg      = [0,0] * n_klustering
+        counter = [0] * n_klustering
+        avg      = [] * n_klustering
 
         index = point.id - 1
-        counters[index] += 1
+        counter[index] += 1
 
-        avg[index] += [point.x, point.y] 
+        avg[index][0] += point.x
+        avg[index][1] += point.y
         #TODO test if work
 
+    print("Results: ")
+    print("Counters: ")
+    print("    - Cluster1: " + counter[0])
+    print("    - Cluster2: " + counter[1])
+    print("    - Cluster3: " + counter[2])
+    print("Old centroids: " + str(centroids[0]) + " - " + str(centroids[1]) + " - " + str(centroids[2]))
+    
+    avg[0] = avg[0]/ counter[0]
+    avg[1] = avg[1]/ counter[1]
+    avg[2] = avg[2]/ counter[2]
+    print("New centroids: " + str(avg[0]) + " - " + str(avg[1]) + " - " + str(avg[2]))
     return
 
 
