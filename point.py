@@ -21,3 +21,13 @@ class Point:
         
         print(string)
         return
+
+    def __str__(self):
+        string = "(" + str(self.x) + ", " +  str(self.y) + ")"
+        if(self.cluster != -1):
+            string += string + " cluster =" + str(self.cluster)
+        
+        return string
+
+    def __repr__(self):
+        return str(self)

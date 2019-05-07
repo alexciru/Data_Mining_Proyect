@@ -21,7 +21,7 @@ def main():
             split = line.split(',')
 
             new_point = Point(float(split[0]), float(split[1])) #extract the information about lenght and width of the sepal
-            new_point.print()
+            #new_point.print()
             points.append( new_point )
         
 
