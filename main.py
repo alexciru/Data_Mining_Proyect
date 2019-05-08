@@ -35,10 +35,10 @@ def main():
     # show results
     print("writing results on file:")
     write_results("out.data", points)
-    #TODO plot the results
+    
     print("Ploting the results:")
-    plot "./file.dat" u 1:2:3 with lines  palette
-
+    #TODO plot the results
+    
     return
 
 

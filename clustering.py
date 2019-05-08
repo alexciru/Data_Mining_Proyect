@@ -13,9 +13,9 @@ def k_means(n_klustering, points):
     # create random centroids
     centroids = [None] * n_klustering
     for i in range(0, n_klustering):
-        # TODO implement dinamic random number generator
         # TODO implement seed
-        
+
+        # TODO implement dinamic random number generator
         random_x = float("%.3f" % random.uniform(4, 9))
         random_y = float("%.3f" % random.uniform(2, 5))
         
@@ -40,9 +40,7 @@ def k_means(n_klustering, points):
 
     for point in points:
 
-        # Calculate new Centroids (sum everything and divided by number of points )
-       
-
+        # Calculate new Centroids (sum everything and divided by number of points)
         index = point.cluster - 1
         counter[index] += 1
 
