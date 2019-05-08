@@ -9,7 +9,6 @@
 from point import Point
 from clustering import k_means
 
-import numpy
 
 # from clustering import k_means
 
@@ -35,7 +34,7 @@ def main():
     # show results
     print("writing results on file:")
     write_results("out.data", points)
-    
+
     print("Ploting the results:")
     #TODO plot the results
     
