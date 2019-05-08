@@ -22,7 +22,6 @@ def k_means(n_klustering, points):
         centroids[i] = Point(random_x, random_y, i)
     
 
-
     
     # We repeat the loop until the 
     while True:
@@ -89,3 +88,14 @@ def k_means(n_klustering, points):
 def eucladian_distance(x, y):
     distance =  ((x.x - y.x)**2) + (x.y - y.y)**2
     return distance
+
+#TODO make the program with more functions
+
+def create_random_controids(centroids):
+    return
+
+def assign_nearnest_centroid(points, centroids):
+    return
+
+def calculate_new_centroids(points, centroids):
+    return
