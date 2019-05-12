@@ -6,26 +6,16 @@
 # TODO implement concurrency
 import random
 import math
+import threading
 from point import Point
 
 def k_means(n_klustering, points):
 
     # create random centroids
-    centroids = [None] * n_klustering
-    for i in range(0, n_klustering):
-        # TODO implement seed
-
-        # TODO implement dinamic random number generator
-        random_x = float("%.3f" % random.uniform(4, 9))
-        random_y = float("%.3f" % random.uniform(2, 5))
-        
-        centroids[i] = Point(random_x, random_y, i)
+    centroids = create_random_controids(n_klustering)
     
-
-    
-    # We repeat the loop until the 
+    # We start the algorithm
     while True:
-
     # assign each point to the nearnest centroids
         for point in points:
             distances = []
@@ -49,9 +39,7 @@ def k_means(n_klustering, points):
 
             avgx[index] += float("%.3f" % point.x)
             avgy[index] += float("%.3f" %point.y)
-            #TODO test if work
-
-
+    
 
         print("Results: ")
         print("Counters: ")
@@ -75,11 +63,11 @@ def k_means(n_klustering, points):
         print("Old centroids: " + str(centroids[0]) + " - " + str(centroids[1]) + " - " + str(centroids[2]))
         print("New centroids: " + str(new_centroids[0]) + " - " + str(new_centroids[1]) + " - " + str(new_centroids[2]))
 
-        if centroids == new_centroids:
+        if centroids == new_centroids: #if centroids didn't change we stop the algorithm
             break
         
         centroids = new_centroids
-    
+
     return
 
 
@@ -91,8 +79,19 @@ def eucladian_distance(x, y):
 
 #TODO make the program with more functions
 
-def create_random_controids(centroids):
-    return
+def create_random_controids(n_klustering):
+    centroids = [None] * n_klustering
+    for i in range(0, n_klustering):
+        
+        # TODO implement seed
+        # TODO implement dinamic random number generator with min and max 
+        random_x = float("%.3f" % random.uniform(4, 9))
+        random_y = float("%.3f" % random.uniform(2, 5))
+        
+        centroids[i] = Point(random_x, random_y, i)
+
+    return centroids
+
 
 def assign_nearnest_centroid(points, centroids):
     return

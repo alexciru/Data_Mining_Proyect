@@ -14,19 +14,7 @@ from clustering import k_means
 
 def main():
     # read file
-    f = open("iris.data", 'r')
-    points = [] #create a list of points
-
-    
-    for line in f:
-        if line is not None:
-            split = line.split(',')
-
-            new_point = Point(float(split[0]), float(split[1])) #extract the information about lenght and width of the sepal
-            #new_point.print()
-            points.append( new_point )
-    
-    f.close()
+    points = read_points_from_file("iris.data")
 
     # start clustering
     k_means(3,points)
@@ -34,11 +22,23 @@ def main():
     # show results
     print("writing results on file:")
     write_results("out.data", points)
-
-    print("Ploting the results:")
-    #TODO plot the results
     
     return
+
+
+def read_points_from_file(filename):
+    f = open("iris.data", 'r')
+    points = [] #create a list of points
+
+    for line in f:
+        if line is not None:
+            split = line.split(',')
+
+            new_point = Point(float(split[0]), float(split[1]))
+            points.append(new_point)
+    
+    f.close()
+    return points
 
 
 def write_results(filename, points):
