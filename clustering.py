@@ -24,11 +24,11 @@ def k_means(n_klustering, points):
         points = assign_nearnest_centroid(points, centroids)   
 
         # We write values into the file
-        filename = "klustering_" + str(iteration)
+        filename = "klustering_" + str(iteration) + ".txt"
         write_results( filename, points)
         iteration += 1
 
-        
+
         counter       = [0] * n_klustering
         avgx          = [0] * n_klustering
         avgy          = [0] * n_klustering

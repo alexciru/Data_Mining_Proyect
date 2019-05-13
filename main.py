@@ -16,6 +16,8 @@ def main():
     # read file
     points = read_points_from_file("iris.data")
 
+    # TODO - remove all files in output folder
+
     # start clustering
     k_means(3,points)
        
@@ -38,9 +40,9 @@ def read_points_from_file(filename):
     return points
 
 
+
 if __name__ == "__main__":
     main()
-
 
 
 """
