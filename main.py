@@ -17,6 +17,7 @@ def main():
     points = read_points_from_file("iris.data")
 
     # TODO - remove all files in output folder
+    # TODO - show centroids in the plot
 
     # start clustering
     k_means(3,points)
