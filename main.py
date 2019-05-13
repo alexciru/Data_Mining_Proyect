@@ -18,10 +18,7 @@ def main():
 
     # start clustering
     k_means(3,points)
-    
-    # show results
-    print("writing results on file:")
-    write_results("out.data", points)
+       
     
     return
 
@@ -39,15 +36,6 @@ def read_points_from_file(filename):
     
     f.close()
     return points
-
-
-def write_results(filename, points):
-    f = open(filename, 'w')
-    for point in points:
-        f.write("%.3f , %.3f , %d \n" % (point.x , point.y , point.cluster))
-
-    f.close
-    return
 
 
 if __name__ == "__main__":
@@ -69,5 +57,5 @@ And we will use the information about sepal length and width
 """
 
 # set datafile sep ','
-# set palette model RGB defined (0 "red",1 "blue", 2 "green")
+# set palette model RGB defined (0 "black",1 "blue", 2 "green",3 "red", 4 "yellow")
 # plot 'iris.data' using 1:2:3 notitle with points pt 7 palette
