@@ -61,3 +61,5 @@ And we will use the information about sepal length and width
 # set datafile sep ','
 # set palette model RGB defined (0 "black",1 "blue", 2 "green",3 "red", 4 "yellow")
 # plot 'iris.data' using 1:2:3 notitle with points pt 7 palette
+
+# plot "./file.dat" u 1:2:3 with points pt 7 ps 0.5 palette

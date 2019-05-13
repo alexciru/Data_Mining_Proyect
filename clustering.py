@@ -11,7 +11,7 @@ from point import Point
 
 def k_means(n_klustering, points):
 
-    write_results("initial_points", points)   # We wrote the values of the
+    write_results("initial_points.txt", points)   # We wrote the values of the
 
     # create random centroids
     centroids = create_random_controids(n_klustering)
