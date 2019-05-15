@@ -1,21 +1,21 @@
 # File: main.py
 # Author: Alejandro Cirugeda
 # Description:
-#
-#
+#   The main function will read the points from a file and will call the k-means algorith to assing a cluster 
+#   for each point. We will also calculate the execution time for further analissys
+
+import time
 from point import Point
 from clustering import k_means
 
-
-# from clustering import k_means
-
 def main():
-    # read file
     points = read_points_from_file("iris.data")
-
-    # TODO - remove all files in output folder (can be in makefile)
-    
+    start_time = time.time()
+    # TODO - remove all files in output folder (can be in makefile)    
     k_means(3, points)
+
+    end_time = time.time()
+    print("Execution time: %.3f" % (end_time - start_time))
     return
 
 
