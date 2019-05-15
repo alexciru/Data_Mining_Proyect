@@ -3,9 +3,6 @@
 # Description:
 #
 #
-
-#import numpy as np   # Library for linear algebra
-#import pandas as pd  # library for data procesing
 from point import Point
 from clustering import k_means
 
@@ -16,13 +13,9 @@ def main():
     # read file
     points = read_points_from_file("iris.data")
 
-    # TODO - remove all files in output folder
-    # TODO - show centroids in the plot
-
-    # start clustering
-    k_means(3,points)
-       
+    # TODO - remove all files in output folder (can be in makefile)
     
+    k_means(3, points)
     return
 
 
