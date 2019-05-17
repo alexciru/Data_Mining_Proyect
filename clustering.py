@@ -6,7 +6,6 @@
 #   spliting the number of points between differents threads in order to calculate the eucladian distance and the assigment 
 #   of the different clusters. The output of every iteration is witten in a file for further annalisys
 
-# TODO implement concurrency
 import random
 import math
 import threading
@@ -16,22 +15,22 @@ def k_means(n_klustering, points):
 
     write_results("initial_points.txt", points)   # We wrote the values of the
     centroids = create_random_controids(n_klustering)
-
     chunks = split_points(points, 4)
   
-
     iteration = 0
     while True:
-        points = assign_nearnest_centroid(points, centroids)   
+        # TODO make some parameter from argument like n_threads
+        
+        assing_nearnest_centroid_concurrency(chunks, centroids)   
 
         # We write values into the file
         filename = "klustering_" + str(iteration) + ".txt"
-        write_results( filename, points)
+        write_results(filename, points, centroids)
 
-        new_centroids = calculate_new_centroids(n_klustering, points)
+        new_centroids = calculate_new_centroids_concurrency(chunks, centroids)
 
-        print("Old centroids: " + str(centroids[0]) + " - " + str(centroids[1]) + " - " + str(centroids[2]))
-        print("New centroids: " + str(new_centroids[0]) + " - " + str(new_centroids[1]) + " - " + str(new_centroids[2]))
+        print("Old centroids: " + str(centroids))
+        print("New centroids: " + str(new_centroids))
 
         if centroids == new_centroids: #if centroids didn't change we stop the algorithm
             break
@@ -44,7 +43,6 @@ def k_means(n_klustering, points):
 
 
 
-# funcion that return the eclaudian distance between 2 points
 def eucladian_distance(x, y):
     """
     Returns the distance between two different points
@@ -59,16 +57,16 @@ def create_random_controids(n_klustering):
     Create a new point that will work as centroid of a cluster. Will start with a 
     random position.
     """
-    # TODO check if at least one point is assig to each centroid
     centroids = [None] * n_klustering
     for i in range(0, n_klustering):
         
-        # FIXME seed generator dont work
-        # TODO implement dinamic random number generator with min and max 
-        random_x = float("%.3f" % random.uniform(4, 9))
+        # FIXME seed generator dont work and dinamic random
+       
+        random_x = float("%.3f" % random.uniform(3, 8))
         random_y = float("%.3f" % random.uniform(2, 5))
         
-        centroids[i] = Point(random_x, random_y, i)
+        centroids[i] = Point(random_x, random_y, 0)
+
 
     return centroids
 
@@ -89,68 +87,111 @@ def assign_nearnest_centroid(points, centroids):
     return points
 
 
-def calculate_new_centroids(n_clusters, points):
+
+def write_results(filename, points, centroids = []):
     """
-    This method obtain the avg position of all the points that are assig in the same cluster in 
-    order to return a list of the new position of the centroids
-    """
-    counter       = [0] * n_clusters
-    avgx          = [0] * n_clusters
-    avgy          = [0] * n_clusters
-    new_centroids = []
-
-
-    # Sum of position in same clusters
-    for point in points:
-        index = point.cluster - 1
-        counter[index] += 1
-
-        avgx[index] += float("%.3f" % point.x)
-        avgy[index] += float("%.3f" %point.y)
-
-    print("Counters: ")
-    print("    - Cluster1: " + str(counter[0]))
-    print("    - Cluster2: " + str(counter[1]))
-    print("    - Cluster3: " + str(counter[2]))
-
-    # Calculate avg position and add it to list
-    for i in range(n_clusters):
-        avgx[i] = float("%.3f" % (avgx[i]/ counter[i]))
-        avgy[i] = float("%.3f" % (avgy[i]/ counter[i]))
-        new_centroids.append(Point(avgx[i], avgy[i]))
-   
-    return new_centroids
-
-
-
-# We will write the results in the output folder
-def write_results(filename, points):
-    """
-    Write the state of the point into a fille. Write x, y and kluster_id
+    Write the state of the point into a file. Write x, y and kluster_id
     """
     path = "output/" + str(filename)
     f = open(path, 'w')
     for point in points:
         f.write("%.3f , %.3f , %d \n" % (point.x , point.y , point.cluster))
+        
+    # Write the centroids
+    for point in centroids:
+         f.write("%.3f , %.3f , %d \n" % (point.x , point.y , point.cluster))
 
     f.close
     return
+
 
 def split_points(points, n_chunks):
     """
     Split the list of points into similar size chunks. Return the list of chucka
     """
     if n_chunks < 2: return points
+    out = []
     
     avg = len(points) / float(n_chunks)
-    out = []
     last = 0.0
-
     while last < len(points):
         out.append(points[int(last):int(last + avg)])
         last += avg
-
     return out
 
 
+def assing_nearnest_centroid_concurrency(point_chunk, centroids):
+    threads = []
 
+    for chunk in point_chunk:
+        x = threading.Thread(target = assign_nearnest_centroid, args=(chunk, centroids))
+        threads.append(x)
+        x.start()
+
+    for i in range(len(threads)):
+        x.join()
+    
+    return point_chunk
+
+
+def calculate_new_centroids(n_clusters, points, value_x , value_y, counter, lock):
+    """
+    This method Will be execute by the threads. Each thread will calculate the avg. 
+    position of his chunk of points and add the result to variables avgx and avgy 
+    guarded by a lock share bettween threads
+    """
+    local_counter        = [0] * n_clusters
+    local_x              = [0] * n_clusters
+    local_y              = [0] * n_clusters
+
+    # Sum of values in the chunk
+    for point in points:
+        index = point.cluster - 1 #compensate index with kluster id
+        local_counter[index] += 1
+
+        local_x[index] += float("%.3f" % point.x)
+        local_y[index] += float("%.3f" % point.y)
+    print("LOCAL COUNTER")
+    print(local_counter)
+    # update the value
+    for i in range(n_clusters):
+        lock.acquire()
+        value_x[i] += float("%.3f" % (local_x[i]))
+        value_y[i] += float("%.3f" % (local_y[i]))
+        counter[i] += local_counter[i]
+        lock.release()
+        
+   
+    return
+
+
+
+def calculate_new_centroids_concurrency(point_chunk, centroids):
+    n_cluster = len(centroids)
+    threads = []
+    lock = threading.Lock()
+    value_x          = [0] * n_cluster
+    value_y          = [0] * n_cluster
+    counter          = [0] * n_cluster
+    for chunk in point_chunk:
+        x = threading.Thread(target = calculate_new_centroids, args=(n_cluster, chunk, value_x, value_y, counter, lock))
+        threads.append(x)
+        x.start()
+
+    # Wait for all the threads to finish
+    for i in range(len(threads)):
+        x.join()
+    
+    # Calculate the avg beetween threads and add it to the new list
+    new_centroids = [] 
+    avg_x          = [0] * n_cluster
+    avg_y          = [0] * n_cluster
+    print("COUNTER --> ")
+    print(counter)
+    for i in range(n_cluster):
+        avg_x[i] = value_x[i] / counter[i]
+        avg_y[i] = value_y[i] / counter[i]
+
+    new_centroids.append(Point(avg_x[i], avg_y[i]))
+
+    return new_centroids
