@@ -189,9 +189,8 @@ def calculate_new_centroids_concurrency(point_chunk, centroids):
     print("COUNTER --> ")
     print(counter)
     for i in range(n_cluster):
-        avg_x[i] = value_x[i] / counter[i]
-        avg_y[i] = value_y[i] / counter[i]
-
-    new_centroids.append(Point(avg_x[i], avg_y[i]))
+        avg_x[i] = float("%.3f" %(value_x[i] / counter[i]))
+        avg_y[i] = float("%.3f" %(value_y[i] / counter[i]))
+        new_centroids.append(Point(avg_x[i], avg_y[i]))
 
     return new_centroids
