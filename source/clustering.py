@@ -147,12 +147,11 @@ def calculate_new_centroids(n_clusters, points, value_x , value_y, counter, lock
     # Sum of values in the chunk
     for point in points:
         index = point.cluster - 1 #compensate index with kluster id
-        local_counter[index] += 1
 
+        local_counter[index] += 1
         local_x[index] += float("%.3f" % point.x)
         local_y[index] += float("%.3f" % point.y)
-    print("LOCAL COUNTER")
-    print(local_counter)
+    
     # update the value
     for i in range(n_clusters):
         lock.acquire()
@@ -185,8 +184,7 @@ def calculate_new_centroids_concurrency(point_chunk, centroids):
     new_centroids = [] 
     avg_x          = [0] * n_cluster
     avg_y          = [0] * n_cluster
-    print("COUNTER --> ")
-    print(counter)
+
     for i in range(n_cluster):
         if counter[i] != 0:
             avg_x[i] = float("%.3f" %(value_x[i] / counter[i]))
