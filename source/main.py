@@ -7,12 +7,18 @@
 import time
 from point import Point
 from clustering import k_means
+from point import Point
+
+N_KLUSTERS = 3
+N_THREADS = 4
+
 
 def main():
+    
     points = read_points_from_file("iris.data")
     start_time = time.time()
     # TODO - remove all files in output folder (can be in makefile)    
-    k_means(3, points)
+    k_means(N_KLUSTERS, points, N_THREADS )
 
     end_time = time.time()
     print("Execution time: %.3f" % (end_time - start_time))
@@ -20,7 +26,11 @@ def main():
 
 
 def read_points_from_file(filename):
-    f = open("iris.data", 'r')
+    """
+    Read information from file and create a Point for each entry
+    """
+    path = "../input/" + filename
+    f = open(path, 'r')
     points = [] #create a list of points
 
     for line in f:
@@ -39,21 +49,9 @@ if __name__ == "__main__":
     main()
 
 
-"""
-We will use the iris database:
-And we will use the information about sepal length and width
-1. sepal length in cm
-   2. sepal width in cm
-   3. petal length in cm
-   4. petal width in cm
-   5. class: 
-      -- Iris Setosa
-      -- Iris Versicolour
-      -- Iris Virginica
-"""
-
 # set datafile sep ','
 # set palette model RGB defined (0 "black",1 "blue", 2 "green",3 "red", 4 "yellow")
 # plot 'iris.data' using 1:2:3 notitle with points pt 7 palette
 
 # plot "./initial_points.txt" u 1:2:3 with points pt 7 ps 0.5 palette
+# plot "./klustering_1.txt" u 1:2:3 with points pt 7 ps 0.5 palette

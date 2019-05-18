@@ -5,13 +5,11 @@
 #   Each point will have an X and Y postion and a cluster associated with them
 
 class Point:
-    def __init__(self, x, y, identifier = -1):
+    def __init__(self, x, y):
         self.x = x  
         self.y = y
-        self.cluster = 0 #cluster associated with the point
-        self.id = identifier
+        self.cluster = 0    # Cluster associated with the point
         return
-
 
 
     def print(self):

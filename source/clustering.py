@@ -5,17 +5,17 @@
 #   a cluster to each point.s. The execution of the algorith is in parallel
 #   spliting the number of points between differents threads in order to calculate the eucladian distance and the assigment 
 #   of the different clusters. The output of every iteration is witten in a file for further annalisys
-
 import random
 import math
 import threading
 from point import Point
 
-def k_means(n_klustering, points):
+def k_means(n_klustering, points, n_threads):
 
-    write_results("initial_points.txt", points)   # We wrote the values of the
+    write_results("../output/initial_points.txt", points)   # We wrote the values of the
     centroids = create_random_controids(n_klustering)
-    chunks = split_points(points, 4)
+    # We split the list for each thread
+    chunks = split_points(points, n_threads) 
   
     iteration = 0
     while True:
@@ -47,7 +47,7 @@ def eucladian_distance(x, y):
     """
     Returns the distance between two different points
     """
-    distance =  ((x.x - y.x)**2) + (x.y - y.y)**2
+    distance =  ((x.x - y.x)**2) + ((x.y - y.y)**2)
     return distance
 
 
@@ -65,7 +65,7 @@ def create_random_controids(n_klustering):
         random_x = float("%.3f" % random.uniform(3, 8))
         random_y = float("%.3f" % random.uniform(2, 5))
         
-        centroids[i] = Point(random_x, random_y, 0)
+        centroids[i] = Point(random_x, random_y)
 
 
     return centroids
@@ -92,7 +92,7 @@ def write_results(filename, points, centroids = []):
     """
     Write the state of the point into a file. Write x, y and kluster_id
     """
-    path = "output/" + str(filename)
+    path = "../output/" + str(filename)
     f = open(path, 'w')
     for point in points:
         f.write("%.3f , %.3f , %d \n" % (point.x , point.y , point.cluster))
@@ -161,7 +161,6 @@ def calculate_new_centroids(n_clusters, points, value_x , value_y, counter, lock
         counter[i] += local_counter[i]
         lock.release()
         
-   
     return
 
 
@@ -189,8 +188,9 @@ def calculate_new_centroids_concurrency(point_chunk, centroids):
     print("COUNTER --> ")
     print(counter)
     for i in range(n_cluster):
-        avg_x[i] = float("%.3f" %(value_x[i] / counter[i]))
-        avg_y[i] = float("%.3f" %(value_y[i] / counter[i]))
-        new_centroids.append(Point(avg_x[i], avg_y[i]))
+        if counter[i] != 0:
+            avg_x[i] = float("%.3f" %(value_x[i] / counter[i]))
+            avg_y[i] = float("%.3f" %(value_y[i] / counter[i]))
+            new_centroids.append(Point(avg_x[i], avg_y[i]))
 
     return new_centroids
