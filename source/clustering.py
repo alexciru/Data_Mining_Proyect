@@ -19,7 +19,6 @@ def k_means(n_klustering, points, n_threads):
   
     iteration = 0
     while True:
-        # TODO make some parameter from argument like n_threads
         
         assing_nearnest_centroid_concurrency(chunks, centroids)   
 
@@ -58,12 +57,15 @@ def create_random_controids(n_klustering):
     random position.
     """
     centroids = [None] * n_klustering
+    random.seed(54321)
+    
     for i in range(0, n_klustering):
         
         # FIXME seed generator dont work and dinamic random
        
-        random_x = float("%.3f" % random.uniform(3, 8))
-        random_y = float("%.3f" % random.uniform(2, 5))
+        random_x = float("%.3f" % random.uniform(1, 10))
+        random_y = float("%.3f" % random.uniform(1, 10))
+        print("Random centroid: " + str(random_x) + " - " + str(random_y))
         
         centroids[i] = Point(random_x, random_y)
 
@@ -171,7 +173,9 @@ def calculate_new_centroids_concurrency(point_chunk, centroids):
     value_x          = [0] * n_cluster
     value_y          = [0] * n_cluster
     counter          = [0] * n_cluster
-    for chunk in point_chunk:
+
+    #FIXME error with only one thread
+    for chunk in point_chunk: 
         x = threading.Thread(target = calculate_new_centroids, args=(n_cluster, chunk, value_x, value_y, counter, lock))
         threads.append(x)
         x.start()

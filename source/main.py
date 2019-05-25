@@ -10,14 +10,19 @@ from clustering import k_means
 from point import Point
 
 N_KLUSTERS = 3
-N_THREADS = 4
+N_THREADS = 10
 
+#FILENAME = "iris.data"
+#FILENAME = "cluster_1500.txt"
+#FILENAME = "cluster_2500.txt"
+FILENAME = "cluster_8000.txt"
 
 def main():
-    
-    points = read_points_from_file("iris.data")
+ 
+    points = read_points_from_file( FILENAME )
     start_time = time.time()
-    # TODO - remove all files in output folder (can be in makefile)    
+    # TODO - remove all files in output folder (can be in makefile)  
+      
     k_means(N_KLUSTERS, points, N_THREADS )
 
     end_time = time.time()
@@ -27,7 +32,7 @@ def main():
 
 def read_points_from_file(filename):
     """
-    Read information from file and create a Point for each entry
+    Read information from file and create a Point for each entry.
     """
     path = "../input/" + filename
     f = open(path, 'r')
