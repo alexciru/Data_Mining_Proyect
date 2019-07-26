@@ -1,54 +1,63 @@
-# Implementation of K-means Algorithm with application of parallel execution
+# Case study of machine learning and datamining techniques
 
+
+
+### Using the Breast Cancer datasets
 ```
-Add k-means Gif
+Add photos
 ```
 
-###### This project was done in the course of Data Mining in the University Politechnika Warszawa.
+###### This project was done in the course of Introduction of artificial intelligence in the University Politechnika Warszawa.
 ![Alt text](http://www.mini.pw.edu.pl/~gagolews/mini_studia_II_stopnia_matematyka/logopw.png)
 ___
 
-
 ### Main task
-The objective of this project it’s to implement the clustering algorithm: K-means. This algorithm is used in data mining for finding patterns in the dataset. The objective of this project is to present a design and implementation of the algorithm with parallel implementation in python.
+The task of this project is to make a case study of the different classifiers, In order to do that we will using a Breast Cancer Dataset.
 
-### Algorithm
-The K-means algorithm is a simple algorithm that works as follows:
-1.	We generate one centroid random point for each cluster we want to classify.
-2.	We assign each point to the nearest centroid. For this project we will use the Euclidean distance.
-3.	Calculate the new position of the Centroid with the average position of the points assig to that centroid
-4.	With the new position of the centroid we assign the nearest point and repeat the process until the position of the centroid not vary
+## Description of the dataset
 
-### input and output
-This project will receive the input for a .txt file. In this file we will read the x and y position.
-Once we have the output in the file, we will use Gnuplot, an open source plotting tool, in order to plot the results in a graphic and make a further analysis.
+ This [Breast Cancer Database](https://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+%28original%29). Features were computed from a digitized image of a breast mass. They describe characteristics of the cell nuclei present in the image. This dataset is formed by 10 attributes and each instance has one of possible classes: **benign** or **malignant**.
 
-### Experiments
-In order test the efficiency of the algorithm we have 3 different experiments with different datasets:
-+ Iris Data (around 130 entries)
-+ artificial database (8000 entries)
-+ Household power consumption database (2 million entries)
+attribute | value
+:------------ | -------------
+Sample code number| id number
+Clump Thickness| 1 - 10
+Uniformity of Cell Size| 1 - 10
+Uniformity of Cell Shape| 1 - 10
+Marginal Adhesion| 1 - 10
+Single Epithelial Cell Size| 1 - 10
+Bare Nuclei| 1 - 10
+Bland Chromatin| 1 - 10
+Normal Nucleoli| 1 - 10
+Mitoses| 1 - 10
+Class| B or M
 
-1. Iris datasets
-The objective of this experiment is to test if the k-means algorithm work properly with small numbers of entries. With this database there is have been a lot of experiments for classification and we can check if we obtain good results.  The iris database is formed with 150 instances of flower belonging to 3 different classes.
-This was one of the first experiments and was mainly used to check the algorith while was writing.
+In this dataset we have this class distribution:
 
-![Alt text](https://media.giphy.com/media/XIqCQx02E1U9W/giphy.gif)
++ **Benign**:    458  65.5%
++ **Malignant**: 241  34.5%
 
 
-2. artificial dataset
-This dataset is formed of 8000 instances and was created by a tool called: MlDemos, a tool used for education and learning of IA techniques
-The main objective is to see how the algorithm behave with some notorious number of instances with some clear cluster in order to check both the assignment of the clusters and the execution time.
 
-![Alt text](https://media.giphy.com/media/13HgwGsXF0aiGY/giphy.gif)
 
-3. power consumption dataset
-This dataset has 2075259 instances and the point of the experiment is to take the implementation to the limit and, specially, to study how the algorithm performs with such high numbers.
-The household power consumption has information about the electric measurements in a house between 2007 and 2010. In order to use this dataset, it needed to be cleaned, removing the empty instances. This dataset is not mean to be used for clustering, therefore we will not be able to take conclusion about the dataset.
+### training set and test set
 
-![Alt text](http://giphygifs.s3.amazonaws.com/media/MIY4jpusckRmU/giphy.gif)
 
-### Issue with the project
-One issue that is worth mentioning is the problem with the selection of the random centroids, for this test we used a seed in order to prevent any problems. The issue comes when one random centroid is situated in a position where no points are assigning to it. In order to fix we select another random point and hope it selected a better position. This case is very rare but, in this case, select another random position worked.
+Splitting the data is one of the most important steps and concepts in Machine Learning. we need to split the dataset into training set and testing set.
++ **TRAINING SET:** used to build and train the model.
++ **TESTING SET:** this is the data used to check the model previously created from the training set. We will generate ROC curse to measure the performance of the different classifiers.
 
-Another problem was the stop criteria, in the first version the stop criteria was once the centroids didn’t change between iterations but with higher databases could never stop because it enters a loop of position where a centroid oscillated between to values. It was once tried to be fixed it, adding a marginal error for the position of centroids. But at the end the best option was to add a limited number of the algorithm just in case the execution of the algorithm prolongates too much.
+For this case study we will separate the data into 75% training set and 25% testing set. Also we need to make sure that both sets contains data that belong to both class.
+
+### conclusion
+Model | Accuracy
+------------ | -------------
+ctrees | 96,28
+rpart trees | 96,27
+random Forest| 94,68
+SVM | 96,28
+Bayer| 92,02
+
+```
+Add photos
+```
